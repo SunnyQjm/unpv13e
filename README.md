@@ -15,10 +15,12 @@
   wget http://www.unpbook.com/unpv13e.tar.gz
 
 ### 方法二：直接用本项目里面的压缩包unpv13e.tar.gz即可
-  ```
-  //linux,unix下的解压命令如下
-  tar -zxvf unpv13e.tar.gz
-  ```
+  ```c
+  
+  //linux,unix下的解压命令如下
+  tar -zxvf unpv13e.tar.gz
+  
+  ```
 > ## 基本配置：
 
 * 进入到源码的目录，并开始配置
