@@ -51,6 +51,13 @@
   接着把 unp.h 文件中第七行代码中的 “../config.h” 改成 “config.h”。 然后保存并退出
 
   ```
+  
+## 至此，你就可以在计算机的任何地方使用unp.h头文件了
+## 注意，编译带unp.h头的c文件的时候，需要在最后加上 ***-lunp*** 选项
+```c
+//类似下面这种用法（byterorder.c 是 unpv13e源码中一个此时计算机是大端还是小端的简单程序————位于：intro/byterorder.c
+cc byteorder.c -o bo -lunp
+```
 
 * tags配置，直接在配置文件中配置，这样对于所有打开的文件跳转都是有效的
     > 如果用exctags命令无效，试试ctags
