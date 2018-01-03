@@ -10,7 +10,7 @@ int main(int argc, char** argv){
         err_quit("usage: daytimecli <IPAddress>");
 
     //通过socket函数创建一个套接字，创建失败则退出
-    if( (sockfd == socket(AF_INET, SOCK_STREAM, 0) ) < 0)
+    if( (sockfd = socket(AF_INET, SOCK_STREAM, 0) ) < 0)
         err_sys("socket error");
     
     //清0
