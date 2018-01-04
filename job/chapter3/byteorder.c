@@ -1,6 +1,8 @@
 #include <unp.h>
 
 int main(int argc, char** argv){
+    
+    //定义一个联合体
     union{
         short s;
         char c[sizeof(short)];
@@ -9,9 +11,9 @@ int main(int argc, char** argv){
     un.s = 0x0102;
     printf("%s: ", CPU_VENDOR_OS);
     if(sizeof(short) == 2){
-        if(un.c[0] == 1 && un.c[1] == 2){
+        if(un.c[0] == 1 && un.c[1] == 2){           //高位字节存在内存低位
             printf("big-endian\n");
-        } else if(un.c[0] == 2 && un.c[1] == 1){
+        } else if(un.c[0] == 2 && un.c[1] == 1){    //低位字节存在内存低位
             printf("little-endian\n");
         } else {
             printf("unknow\n");
