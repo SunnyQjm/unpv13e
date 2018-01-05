@@ -13,6 +13,9 @@ int main(int argc, char** argv){
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(9748);
+
+    //指定服务端socket的地址为通配地址
+    //表示接收来自本机各个网络接口的连接请求
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
     Bind(listenfd, (SA *) &servaddr, sizeof(servaddr));
@@ -21,6 +24,9 @@ int main(int argc, char** argv){
     for( ; ; ){
         clen = sizeof(cliaddr);
         connfd = Accept(listenfd, (SA *) &cliaddr, &clen);
+        //接受到来自客户端的请求之后，fork一个进程，在子进程中为客户提供服务
+        //父进程则关闭本进程内该已连接描述符（引用计数减1）
+        //然后再返回继续accept，可以达到并发的效果
         if( (pid = Fork()) == 0 ){      //子进程执行
             Close(listenfd);
             str_echo(connfd);
@@ -32,6 +38,10 @@ int main(int argc, char** argv){
 }
 
 
+/**
+ * 为客户端提供服务
+ * 从客户端接收一个字符串，并将字符串回射回客户端
+ */
 void str_echo(int connfd){
     ssize_t n;
     char buf[MAXLINE];
