@@ -13,6 +13,8 @@ int main(int argc, char** argv){
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_port = htons(9748);
     servaddr.sin_family = AF_INET;
+
+    //调用inet_pton函数将用户输入的点分十进制串转化成网络字节序的32为IPv4地址
     Inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
 
     Connect(sockfd, (SA *) &servaddr, sizeof(servaddr));
@@ -21,6 +23,9 @@ int main(int argc, char** argv){
     Close(sockfd);
 }
 
+/**
+ * 用fgets读取用户的一行输入，发送给服务器，再从服务器接收一行回复并打印到控制台
+ */
 void str_cli(FILE* fp, int sockfd){
     char sendbuf[MAXLINE], recvline[MAXLINE];
     while(Fgets(sendbuf, MAXLINE, fp) != NULL){
