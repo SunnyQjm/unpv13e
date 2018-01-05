@@ -2,6 +2,8 @@
 
 void str_echo(int);
 
+void sig_child(int signo);
+
 int main(int argc, char** argv){
     int listenfd, connfd;
     pid_t pid;
@@ -20,7 +22,9 @@ int main(int argc, char** argv){
 
     Bind(listenfd, (SA *) &servaddr, sizeof(servaddr));
     Listen(listenfd, LISTENQ);
-
+    
+    //设置信号处理函数，用于处理SIGCHLD信号
+    signal(SIGCHLD, sig_child);
     for( ; ; ){
         clen = sizeof(cliaddr);
         connfd = Accept(listenfd, (SA *) &cliaddr, &clen);
@@ -53,4 +57,16 @@ again:
         goto again;
     else if(n < 0)
         err_sys("str_echo: read error");
+}
+
+
+/**
+ * 下面是自定义的信号处理函数，用于处理僵死进程
+ */
+void sig_child(int signo){
+    pid_t pid;
+    int stat;
+    pid = wait(&stat);
+    printf("child %d terminated\n", pid);
+    return;
 }
